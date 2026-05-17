@@ -1,4 +1,3 @@
-// limit is 1e308{{1e308}}1e308{{1e308}}.....
 class InfinityNum {
 
     constructor(
@@ -7,13 +6,23 @@ class InfinityNum {
         layer = 0,
         hyper = 0,
         meta_hyper = 0,
+        meta_meta_hyper = 0,
+        infinity_hyper = 0
     ) {
 
         this.m = Number(mantissa)
+
         this.e = Number(exponent)
+
         this.l = Number(layer)
+
         this.h = Number(hyper)
+
         this.m_h = Number(meta_hyper)
+
+        this.m_m_h = Number(meta_meta_hyper)
+
+        this.i_h = Number(infinity_hyper)
 
         this.normalize()
     }
@@ -38,6 +47,24 @@ class InfinityNum {
             this.e -= 1
         }
 
+        if (this.h >= 1e308) {
+
+            this.m_h += 1
+            this.h = 0
+        }
+
+        if (this.m_h >= 1e308) {
+
+            this.m_m_h += 1
+            this.m_h = 0
+        }
+
+        if (this.m_m_h >= 1e308) {
+            this.i_h += 1
+
+            this.m_m_h = 0
+        }
+
         return this
     }
 
@@ -46,7 +73,10 @@ class InfinityNum {
             this.m,
             this.e,
             this.l,
-            this.h
+            this.h,
+            this.m_h,
+            this.m_m_h,
+            this.i_h
         )
     }
 
@@ -189,6 +219,18 @@ class InfinityNum {
         )
     }
 
+    infinity_hyper(rank = 1) {
+        return new InfinityNum(
+            this.m,
+            this.e,
+            this.l,
+            this.h,
+            this.m_h,
+            this.m_m_h,
+            this.i_h + rank
+        )
+    }
+
     toNumber() {
 
         if (this.h > 0 || this.l > 10) {
@@ -201,12 +243,38 @@ class InfinityNum {
     tostring() {
         let result = ""
 
-        if (this.m_h >= 1) {
-            result = "10{{" + this.m_h + "}}"
+        if (this.i_h > 0) {
+
+            result += "{10, "
+
+            result += this.i_h
+
+            result += ", 10, 10}"
+
+        } else if (this.m_m_h > 0) {
+
+            result += "10{{{"
+
+            result += this.m_m_h
+
+            result += "}}}"
+
+        } else if (this.m_h > 0) {
+
+            result += "10{{"
+
+            result += this.m_h
+
+            result += "}}"
 
         } else if (this.h > 20) {
 
-            result = "10{" + this.h + "}"
+            result += "10{"
+
+            result += this.h
+
+            result += "}"
+
         } else if (this.h > 0) {
 
             for (let i = 0; i < this.h; i++) {

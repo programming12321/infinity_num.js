@@ -4,6 +4,8 @@ A JavaScript library for handling absurdly huge numbers using layers, hyperopera
 
 Inspired by incremental games and large number notations.
 
+It's limit is {10, 1e308, 10, 10}.
+
 ## Features
 
 - Scientific notation

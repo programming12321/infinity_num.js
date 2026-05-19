@@ -4,7 +4,7 @@ A JavaScript library for handling absurdly huge numbers using layers, hyperopera
 
 Inspired by incremental games and large number notations.
 
-It's limit is {10, 1e308, 10, 10}, beyond ```ExpantaNum```: The limit in ExpantaNum is {10, 9e15, 1, 2}.
+It's limit is {10, 1e308 [2] 10}, beyond ```ExpantaNum```: The limit in ExpantaNum is {10, 9e15, 1, 2}.
 
 ## Features
 

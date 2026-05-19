@@ -319,7 +319,13 @@ class InfinityNum {
 
         let result = ""
 
-        if (this.o_h > 0) {
+        if (this.o_h > 20) {
+            result += "{10, "
+
+            result += this.o_h
+
+            result += " [2] 2}"
+        } else if (this.o_h > 0 && this.o_h < 20) {
             result += "{10, "
 
             result += this.o_h

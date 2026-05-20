@@ -143,6 +143,45 @@ class InfinityNum {
         )
     }
 
+    sub(other) {
+
+        other = InfinityNum.from(other)
+
+        if (this.o_h > other.o_h) return this.clone()
+        if (other.o_h > this.o_h) return other.clone()
+
+        if (this.i_h > other.i_h) return this.clone()
+        if (other.i_h > this.i_h) return other.clone()
+
+        if (this.m_m_h > other.m_m_h) return this.clone()
+        if (other.m_m_h > this.m_m_h) return other.clone()
+
+        if (this.m_h > other.m_h) return this.clone()
+        if (other.m_h > this.m_h) return other.clone()
+
+        if (this.h > other.h) return this.clone()
+        if (other.h > this.h) return other.clone()
+
+        let diff = this.e - other.e
+
+        if (diff > 15) return this.clone()
+        if (diff < -15) return other.clone()
+
+        let resultMantissa =
+            this.m * Math.pow(10, diff) - other.m
+
+        return new InfinityNum(
+            resultMantissa,
+            other.e,
+            this.l,
+            this.h,
+            this.m_h,
+            this.m_m_h,
+            this.i_h,
+            this.o_h
+        )
+    }
+
     mul(other) {
 
         other = InfinityNum.from(other)
@@ -383,6 +422,69 @@ class InfinityNum {
         result += Math.floor(this.e)
 
         return result
+    }
+
+    gt(other) {
+        other = InfinityNum.from(other)
+
+        if (this.o_h !== other.o_h)
+            return this.o_h > other.o_h
+
+        if (this.i_h !== other.i_h)
+            return this.i_h > other.i_h
+
+        if (this.m_m_h !== other.m_m_h)
+            return this.m_m_h > other.m_m_h
+
+        if (this.m_h !== other.m_h)
+            return this.m_h > other.m_h
+
+        if (this.h !== other.h)
+            return this.h > other.h
+
+        if (this.l !== other.l)
+            return this.l > other.l
+
+        if (this.e !== other.e)
+            return this.e > other.e
+
+        return this.m > other.m
+    }
+
+    gte(other) {
+
+        other = InfinityNum.from(other)
+
+        if (this.o_h !== other.o_h)
+            return this.o_h > other.o_h
+
+        if (this.i_h !== other.i_h)
+            return this.i_h > other.i_h
+
+        if (this.m_m_h !== other.m_m_h)
+            return this.m_m_h > other.m_m_h
+
+        if (this.m_h !== other.m_h)
+            return this.m_h > other.m_h
+
+        if (this.h !== other.h)
+            return this.h > other.h
+
+        if (this.l !== other.l)
+            return this.l > other.l
+
+        if (this.e !== other.e)
+            return this.e > other.e
+
+        return this.m >= other.m
+    }  
+
+    lt(other) {
+        return !this.gte(other)
+    }
+
+    lte(other) {
+        return !this.gt(other)
     }
 
     static from(value) {

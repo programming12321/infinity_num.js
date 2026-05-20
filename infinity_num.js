@@ -8,7 +8,8 @@ class InfinityNum {
         meta_hyper = 0,
         meta_meta_hyper = 0,
         infinity_hyper = 0,
-        omega_hyper = 0
+        omega_hyper = 0,
+        beaf_notation_hyper = 0
     ) {
 
         this.m = Number(mantissa)
@@ -26,6 +27,8 @@ class InfinityNum {
         this.i_h = Number(infinity_hyper)
 
         this.o_h = Number(omega_hyper)
+
+        this.b_h = Number(beaf_notation_hyper)
 
         this.normalize()
     }
@@ -47,6 +50,8 @@ class InfinityNum {
             this.i_h = 0
 
             this.o_h = 0
+
+            this.b_h = 0
 
             return this
         }
@@ -87,6 +92,12 @@ class InfinityNum {
             this.i_h = 0
         }
 
+        if (this.o_h >= 1e308) {
+
+            this.b_h += 1
+            this.o_h = 0
+        }
+
         return this
     }
 
@@ -100,13 +111,17 @@ class InfinityNum {
             this.m_h,
             this.m_m_h,
             this.i_h,
-            this.o_h
+            this.o_h,
+            this.b_h
         )
     }
 
     add(other) {
 
         other = InfinityNum.from(other)
+
+        if (this.b_h > other.b_h) return this.clone()
+        if (other.b_h > this.b_h) return other.clone()
 
         if (this.o_h > other.o_h) return this.clone()
         if (other.o_h > this.o_h) return other.clone()
@@ -139,13 +154,17 @@ class InfinityNum {
             this.m_h,
             this.m_m_h,
             this.i_h,
-            this.o_h
+            this.o_h,
+            this.b_h
         )
     }
 
     sub(other) {
 
         other = InfinityNum.from(other)
+
+        if (this.b_h > other.b_h) return this.clone()
+        if (other.b_h > this.b_h) return other.clone()
 
         if (this.o_h > other.o_h) return this.clone()
         if (other.o_h > this.o_h) return other.clone()
@@ -178,7 +197,8 @@ class InfinityNum {
             this.m_h,
             this.m_m_h,
             this.i_h,
-            this.o_h
+            this.o_h,
+            this.b_h
         )
     }
 
@@ -191,7 +211,8 @@ class InfinityNum {
             this.m_h > 0 ||
             this.m_m_h > 0 ||
             this.i_h > 0 ||
-            this.o_h > 0
+            this.o_h > 0 ||
+            this.b_h > 0
         ) {
 
             return this.clone()
@@ -201,7 +222,12 @@ class InfinityNum {
             this.m * other.m,
             this.e + other.e,
             this.l,
-            this.h
+            this.h,
+            this.m_h,
+            this.m_m_h,
+            this.i_h,
+            this.o_h,
+            this.b_h
         )
     }
 
@@ -214,7 +240,8 @@ class InfinityNum {
             this.m_h > 0 ||
             this.m_m_h > 0 ||
             this.i_h > 0 ||
-            this.o_h > 0
+            this.o_h > 0 ||
+            this.b_h > 0
         ) {
 
             return new InfinityNum(
@@ -225,7 +252,8 @@ class InfinityNum {
                 this.m_h,
                 this.m_m_h,
                 this.i_h,
-                this.o_h
+                this.o_h,
+                this.b_h
             )
         }
 
@@ -235,7 +263,12 @@ class InfinityNum {
             Math.pow(this.m, p),
             this.e * p,
             this.l,
-            this.h
+            this.h,
+            this.m_h,
+            this.m_m_h,
+            this.i_h,
+            this.o_h,
+            this.b_h
         )
     }
 
@@ -249,7 +282,8 @@ class InfinityNum {
             this.m_h,
             this.m_m_h,
             this.i_h,
-            this.o_h
+            this.o_h,
+            this.b_h
         )
     }
 
@@ -263,7 +297,8 @@ class InfinityNum {
             this.m_h,
             this.m_m_h,
             this.i_h,
-            this.o_h
+            this.o_h,
+            this.b_h
         )
     }
 
@@ -277,7 +312,8 @@ class InfinityNum {
             this.m_h,
             this.m_m_h,
             this.i_h,
-            this.o_h
+            this.o_h,
+            this.b_h
         )
     }
 
@@ -291,7 +327,8 @@ class InfinityNum {
             this.m_h,
             this.m_m_h,
             this.i_h,
-            this.o_h
+            this.o_h,
+            this.b_h
         )
     }
 
@@ -305,7 +342,8 @@ class InfinityNum {
             this.m_h + (rank - 3),
             this.m_m_h,
             this.i_h,
-            this.o_h
+            this.o_h,
+            this.b_h
         )
     }
 
@@ -319,7 +357,8 @@ class InfinityNum {
             this.m_h,
             this.m_m_h,
             this.i_h + rank,
-            this.o_h
+            this.o_h,
+            this.b_h
         )
     }
 
@@ -333,7 +372,23 @@ class InfinityNum {
             this.m_h,
             this.m_m_h,
             this.i_h,
-            this.o_h + rank
+            this.o_h + rank,
+            this.b_h
+        )
+    }
+
+    beaf_notation_hyper(rank = 1) {
+
+        return new InfinityNum(
+            this.m,
+            this.e,
+            this.l,
+            this.h,
+            this.m_h,
+            this.m_m_h,
+            this.i_h,
+            this.o_h,
+            this.b_h + rank
         )
     }
 
@@ -345,6 +400,7 @@ class InfinityNum {
             this.m_m_h > 0 ||
             this.i_h > 0 ||
             this.o_h > 0 ||
+            this.b_h > 0 ||
             this.l > 10
         ) {
 
@@ -358,13 +414,28 @@ class InfinityNum {
 
         let result = ""
 
-        if (this.o_h > 20) {
+        if (this.b_h > 0) {
+
+            result += "{10, "
+
+            result += this.o_h
+
+            result += " ["
+
+            result += this.b_h
+
+            result += "] 10}"
+
+        } else if (this.o_h > 20) {
+
             result += "{10, "
 
             result += this.o_h
 
             result += " [2] 2}"
+
         } else if (this.o_h > 0 && this.o_h < 20) {
+
             result += "{10, "
 
             result += this.o_h
@@ -375,6 +446,7 @@ class InfinityNum {
             }
 
             result += ", 2}"
+
         } else if (this.i_h > 0) {
 
             result += "{10, "
@@ -422,95 +494,6 @@ class InfinityNum {
         result += Math.floor(this.e)
 
         return result
-    }
-
-    gt(other) {
-        other = InfinityNum.from(other)
-
-        if (this.o_h !== other.o_h)
-            return this.o_h > other.o_h
-
-        if (this.i_h !== other.i_h)
-            return this.i_h > other.i_h
-
-        if (this.m_m_h !== other.m_m_h)
-            return this.m_m_h > other.m_m_h
-
-        if (this.m_h !== other.m_h)
-            return this.m_h > other.m_h
-
-        if (this.h !== other.h)
-            return this.h > other.h
-
-        if (this.l !== other.l)
-            return this.l > other.l
-
-        if (this.e !== other.e)
-            return this.e > other.e
-
-        return this.m > other.m
-    }
-
-    gte(other) {
-
-        other = InfinityNum.from(other)
-
-        if (this.o_h !== other.o_h)
-            return this.o_h > other.o_h
-
-        if (this.i_h !== other.i_h)
-            return this.i_h > other.i_h
-
-        if (this.m_m_h !== other.m_m_h)
-            return this.m_m_h > other.m_m_h
-
-        if (this.m_h !== other.m_h)
-            return this.m_h > other.m_h
-
-        if (this.h !== other.h)
-            return this.h > other.h
-
-        if (this.l !== other.l)
-            return this.l > other.l
-
-        if (this.e !== other.e)
-            return this.e > other.e
-
-        return this.m >= other.m
-    }  
-
-    lt(other) {
-        return !this.gte(other)
-    }
-
-    lte(other) {
-        return !this.gt(other)
-    }
-
-    static from(value) {
-
-        if (value instanceof InfinityNum) {
-
-            return value
-        }
-
-        if (value === 0) {
-
-            return new InfinityNum(0, 0, 0, 0)
-        }
-
-        let exponent =
-            Math.floor(Math.log10(Math.abs(value)))
-
-        let mantissa =
-            value / Math.pow(10, exponent)
-
-        return new InfinityNum(
-            mantissa,
-            exponent,
-            0,
-            0
-        )
     }
 }
 

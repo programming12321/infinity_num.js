@@ -10,13 +10,14 @@ Inspired by incremental games and large number notations.
 
 InfinityNum currently supports values up to:
 
-Also is:
-f<sub>ω<sup>ω<sup>1e308</sup></sup></sub> (1e308)
-
 ```text
 
 {10, 1e308 [1e308] 10}
 ```
+
+
+Also is:
+f<sub>ω<sup>ω<sup>1e308</sup></sup></sub> (1e308)
 
 Beyond the limit of ExpantaNum:
 

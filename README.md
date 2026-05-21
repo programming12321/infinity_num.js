@@ -26,6 +26,9 @@ ExpantaNum limit:
 {10, 9e15, 1, 2}
 ```
 
+Also is:
+f<sub>ω+1</sub>
+
 ---
 
 # Features

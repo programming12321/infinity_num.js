@@ -9,7 +9,8 @@ class InfinityNum {
         meta_meta_hyper = 0,
         infinity_hyper = 0,
         omega_hyper = 0,
-        beaf_notation_hyper = 0
+        beaf_notation_hyper = 0,
+        alpha_hyper = 0
     ) {
 
         this.m = Number(mantissa)
@@ -29,6 +30,8 @@ class InfinityNum {
         this.o_h = Number(omega_hyper)
 
         this.b_h = Number(beaf_notation_hyper)
+
+        this.a_h = Number(alpha_hyper)
 
         this.normalize()
     }
@@ -52,6 +55,8 @@ class InfinityNum {
             this.o_h = 0
 
             this.b_h = 0
+
+            this.a_h = 0
 
             return this
         }
@@ -98,6 +103,12 @@ class InfinityNum {
             this.o_h = 0
         }
 
+        if (this.b_h >= 1e308) {
+
+            this.a_h += 1
+            this.b_h = 0
+        }
+
         return this
     }
 
@@ -112,13 +123,17 @@ class InfinityNum {
             this.m_m_h,
             this.i_h,
             this.o_h,
-            this.b_h
+            this.b_h,
+            this.a_h
         )
     }
 
     add(other) {
 
         other = InfinityNum.from(other)
+
+        if (this.a_h > other.a_h) return this.clone()
+        if (other.a_h > this.a_h) return other.clone()
 
         if (this.b_h > other.b_h) return this.clone()
         if (other.b_h > this.b_h) return other.clone()
@@ -155,13 +170,17 @@ class InfinityNum {
             this.m_m_h,
             this.i_h,
             this.o_h,
-            this.b_h
+            this.b_h,
+            this.a_h
         )
     }
 
     sub(other) {
 
         other = InfinityNum.from(other)
+
+        if (this.a_h > other.a_h) return this.clone()
+        if (other.a_h > this.a_h) return other.clone()
 
         if (this.b_h > other.b_h) return this.clone()
         if (other.b_h > this.b_h) return other.clone()
@@ -198,7 +217,8 @@ class InfinityNum {
             this.m_m_h,
             this.i_h,
             this.o_h,
-            this.b_h
+            this.b_h,
+            this.a_h
         )
     }
 
@@ -212,7 +232,8 @@ class InfinityNum {
             this.m_m_h > 0 ||
             this.i_h > 0 ||
             this.o_h > 0 ||
-            this.b_h > 0
+            this.b_h > 0 ||
+            this.a_h > 0
         ) {
 
             return this.clone()
@@ -227,7 +248,8 @@ class InfinityNum {
             this.m_m_h,
             this.i_h,
             this.o_h,
-            this.b_h
+            this.b_h,
+            this.a_h
         )
     }
 
@@ -241,19 +263,21 @@ class InfinityNum {
             this.m_m_h > 0 ||
             this.i_h > 0 ||
             this.o_h > 0 ||
-            this.b_h > 0
+            this.b_h > 0 ||
+            this.a_h > 0
         ) {
 
             return new InfinityNum(
                 this.m,
                 this.e,
                 this.l,
-                this.h + 1,
+                this.h,
                 this.m_h,
                 this.m_m_h,
                 this.i_h,
                 this.o_h,
-                this.b_h
+                this.b_h,
+                this.a_h + 1
             )
         }
 
@@ -268,116 +292,12 @@ class InfinityNum {
             this.m_m_h,
             this.i_h,
             this.o_h,
-            this.b_h
+            this.b_h,
+            this.a_h
         )
     }
 
-    tetrate(height = 2) {
-
-        return new InfinityNum(
-            this.m,
-            this.e,
-            this.l,
-            this.h + 1,
-            this.m_h,
-            this.m_m_h,
-            this.i_h,
-            this.o_h,
-            this.b_h
-        )
-    }
-
-    pentate(height = 2) {
-
-        return new InfinityNum(
-            this.m,
-            this.e,
-            this.l,
-            this.h + 2,
-            this.m_h,
-            this.m_m_h,
-            this.i_h,
-            this.o_h,
-            this.b_h
-        )
-    }
-
-    hexate(height = 2) {
-
-        return new InfinityNum(
-            this.m,
-            this.e,
-            this.l,
-            this.h + 3,
-            this.m_h,
-            this.m_m_h,
-            this.i_h,
-            this.o_h,
-            this.b_h
-        )
-    }
-
-    hyper(rank = 4, height = 2) {
-
-        return new InfinityNum(
-            this.m,
-            this.e,
-            this.l,
-            this.h + (rank - 3),
-            this.m_h,
-            this.m_m_h,
-            this.i_h,
-            this.o_h,
-            this.b_h
-        )
-    }
-
-    meta_hyper(rank = 4, height = 2) {
-
-        return new InfinityNum(
-            this.m,
-            this.e,
-            this.l,
-            this.h,
-            this.m_h + (rank - 3),
-            this.m_m_h,
-            this.i_h,
-            this.o_h,
-            this.b_h
-        )
-    }
-
-    infinity_hyper(rank = 1) {
-
-        return new InfinityNum(
-            this.m,
-            this.e,
-            this.l,
-            this.h,
-            this.m_h,
-            this.m_m_h,
-            this.i_h + rank,
-            this.o_h,
-            this.b_h
-        )
-    }
-
-    omega_hyper(rank = 1) {
-
-        return new InfinityNum(
-            this.m,
-            this.e,
-            this.l,
-            this.h,
-            this.m_h,
-            this.m_m_h,
-            this.i_h,
-            this.o_h + rank,
-            this.b_h
-        )
-    }
-
-    beaf_notation_hyper(rank = 1) {
+    alpha_hyper(rank = 1) {
 
         return new InfinityNum(
             this.m,
@@ -388,7 +308,8 @@ class InfinityNum {
             this.m_m_h,
             this.i_h,
             this.o_h,
-            this.b_h + rank
+            this.b_h,
+            this.a_h + rank
         )
     }
 
@@ -401,6 +322,7 @@ class InfinityNum {
             this.i_h > 0 ||
             this.o_h > 0 ||
             this.b_h > 0 ||
+            this.a_h > 0 ||
             this.l > 10
         ) {
 
@@ -414,7 +336,28 @@ class InfinityNum {
 
         let result = ""
 
-        if (this.b_h > 0) {
+        if (this.a_h >= 10) {
+            result += "{10, "
+
+            result += this.a_h
+
+            result += " [1 / 2] 2}"
+        } else if (this.a_h > 0) {
+            result += "{10, 10 ["
+
+            for (let i = 0; i < this.a_h; i++) {
+
+                result += "1["
+            }
+
+            for (let i = 0; i < this.a_h + 1; i++) {
+
+                result += "2]"
+            }
+
+            result += " 2}"
+
+        } else if (this.b_h > 0) {
 
             result += "{10, "
 

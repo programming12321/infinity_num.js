@@ -12,12 +12,14 @@ InfinityNum currently supports values up to:
 
 ```text
 
-{10, 1e308 [1e308] 10}
+{10, 1e308 [1 \ 2] 10}
 ```
+
+Beyond ```Tethrathoth```.
 
 
 Also is:
-f<sub>ω<sup>ω<sup>1e308</sup></sup></sub> (1e308)
+f<sub>ε<sub>0</sub></sub>
 
 Beyond the limit of ExpantaNum:
 
